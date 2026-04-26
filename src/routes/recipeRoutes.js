@@ -53,9 +53,11 @@ router.put("/recetas/:id", verifyToken, isAdmin, async (req, res) => {
 
 
 // Eliminar receta 
-router.delete("/recetas/:id", verifyToken, async (req, res) => {
+router.delete("/recetas/:id", verifyToken, isAdmin, async (req, res) => {
     try {
-        const data = await Receta.findByIdAndDelete(req.params.id);
+        const data = await Receta.findByIdAndDelete(
+            req.params.id
+        );
         res.json(data);
     } catch (error) {
         res.status(500).json({ message: error.message });
