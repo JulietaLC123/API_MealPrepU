@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Receta = require("../models/recipeModel");
+const verifyToken = require("./validate_token");
 
 // Crear receta
-router.post("/recetas", async (req, res) => {
+router.post("/recetas", verifyToken, async (req, res) => {
     try {
         const receta = new Receta(req.body);
         const data = await receta.save();
@@ -14,7 +15,7 @@ router.post("/recetas", async (req, res) => {
 });
 
 // Obtener todas las recetas
-router.get("/recetas", async (req, res) => {
+router.get("/recetas", verifyToken, async (req, res) => {
     try {
         const data = await Receta.find().populate("autorId");
         res.json(data);
@@ -24,7 +25,7 @@ router.get("/recetas", async (req, res) => {
 });
 
 // Obtener una receta por ID
-router.get("/recetas/:id", async (req, res) => {
+router.get("/recetas/:id", verifyToken, async (req, res) => {
     try {
         const data = await Receta.findById(req.params.id).populate("autorId");
         res.json(data);
@@ -34,7 +35,7 @@ router.get("/recetas/:id", async (req, res) => {
 });
 
 // Actualizar receta
-router.put("/recetas/:id", async (req, res) => {
+router.put("/recetas/:id", verifyToken, async (req, res) => {
     try {
         const data = await Receta.findByIdAndUpdate(
             req.params.id,
@@ -48,7 +49,7 @@ router.put("/recetas/:id", async (req, res) => {
 });
 
 // Eliminar receta 
-router.delete("/recetas/:id", async (req, res) => {
+router.delete("/recetas/:id", verifyToken, async (req, res) => {
     try {
         const data = await Receta.findByIdAndDelete(req.params.id);
         res.json(data);

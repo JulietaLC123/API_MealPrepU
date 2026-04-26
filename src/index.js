@@ -1,23 +1,30 @@
-/*'use strict';
+const express = require("express");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
-const http = require('http');
+const app = express();
+const port = 3000;
 
-const server = http.createServer(function (req, res) {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Hello World\n');
+const recipeRoutes = require("./routes/recipeRoutes");
+const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/authentication");
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.use("/api", recipeRoutes);
+app.use("/api", userRoutes);
+app.use("/api", authRoutes);
+
+app.get("/", (req, res) => {
+  res.send("API funcionando 🚀");
 });
 
-server.listen(5000);
-*/
-
-const express = require('express')
-const app = express()
-const port = 3000
-
-app.get('/', (req, res) => {
-  res.send('¡Hola Mundo!')
-})
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("Conexión exitosa"))
+  .catch((error) => console.log(error));
 
 app.listen(port, () => {
-  console.log(`La aplicación se está ejecutando en http://localhost:${port}`)
-})
+  console.log(`Servidor corriendo en puerto ${port}`);
+});
