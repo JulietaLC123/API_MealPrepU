@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Receta = require("../models/recipeModel");
 const verifyToken = require("./validate_token");
+const verifyToken = require("./validate_token");
+const isAdmin = require("./isAdmin");
 
 // Crear receta
 router.post("/recetas", verifyToken, async (req, res) => {
