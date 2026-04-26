@@ -8,6 +8,7 @@ router.post("/usuarios", async (req, res) => {
         const usuario = new Usuario(req.body);
         const data = await usuario.save();
         res.json(data);
+
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -18,6 +19,11 @@ router.get("/usuarios", async (req, res) => {
     try {
         const data = await Usuario.find();
         res.json(data);
+        
+        // si es admin ve todos
+        const usuario = await Usuario.findById(req.user.id);
+        res.json(usuario);
+
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
