@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Receta = require("../models/recipeModel");
 const verifyToken = require("./validate_token");
+const verifyToken = require("./validate_token");
+const isAdmin = require("./isAdmin");
 
 // Crear receta
 router.post("/recetas", verifyToken, async (req, res) => {
@@ -35,7 +37,7 @@ router.get("/recetas/:id", verifyToken, async (req, res) => {
 });
 
 // Actualizar receta
-router.put("/recetas/:id", verifyToken, async (req, res) => {
+router.put("/recetas/:id", verifyToken, isAdmin, async (req, res) => {
     try {
         const data = await Receta.findByIdAndUpdate(
             req.params.id,
@@ -48,10 +50,14 @@ router.put("/recetas/:id", verifyToken, async (req, res) => {
     }
 });
 
+
+
 // Eliminar receta 
-router.delete("/recetas/:id", verifyToken, async (req, res) => {
+router.delete("/recetas/:id", verifyToken, isAdmin, async (req, res) => {
     try {
-        const data = await Receta.findByIdAndDelete(req.params.id);
+        const data = await Receta.findByIdAndDelete(
+            req.params.id
+        );
         res.json(data);
     } catch (error) {
         res.status(500).json({ message: error.message });
