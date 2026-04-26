@@ -37,7 +37,7 @@ router.get("/recetas/:id", verifyToken, async (req, res) => {
 });
 
 // Actualizar receta
-router.put("/recetas/:id", verifyToken, async (req, res) => {
+router.put("/recetas/:id", verifyToken, isAdmin, async (req, res) => {
     try {
         const data = await Receta.findByIdAndUpdate(
             req.params.id,
@@ -49,6 +49,8 @@ router.put("/recetas/:id", verifyToken, async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+
 
 // Eliminar receta 
 router.delete("/recetas/:id", verifyToken, async (req, res) => {
