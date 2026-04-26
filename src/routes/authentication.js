@@ -55,10 +55,14 @@ router.post("/login", async (req, res) => {
         }
 
         const token = jwt.sign(
-            { id: user._id },
-            process.env.SECRET,
-            { expiresIn: 60 * 60 * 24 }
-        );
+        {
+        id: user._id,
+        rol: user.rol
+        },
+        process.env.SECRET,
+        {
+        expiresIn: 60 * 60 * 24
+        });
 
         res.json({
             auth: true,
