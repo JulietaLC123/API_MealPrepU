@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
-const usuarioSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   nombre: {
     type: String,
     required: true
@@ -18,21 +19,14 @@ const usuarioSchema = new mongoose.Schema({
     type: String,
     enum: ["usuario", "admin"],
     default: "usuario"
-  },
-  fechaRegistro: {
-    type: Date,
-    default: Date.now
-  },
-  perfil: {
-    foto: {
-      type: String,
-      default: ""
-    },
-    descripcion: {
-      type: String,
-      default: ""
-    }
   }
 });
 
-module.exports = mongoose.model("Usuario", usuarioSchema);
+userSchema.methods.encryptPassword = async function(password) {
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
+};
+
+userSchema.methods.comparePassword = async function(password) {
+  return await bcrypt.compare(password, this.password);
+};
