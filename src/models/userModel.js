@@ -37,3 +37,5 @@ userSchema.pre("save", async function(next) {
   this.password = await this.encryptPassword(this.password);
   next();
 });
+
+module.exports = mongoose.model("Usuario", userSchema);
