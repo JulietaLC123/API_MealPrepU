@@ -19,7 +19,7 @@ router.get("/usuarios", async (req, res) => {
     try {
         const data = await Usuario.find();
         res.json(data);
-        
+
         // si es admin ve todos
         const usuario = await Usuario.findById(req.user.id);
         res.json(usuario);
@@ -32,6 +32,9 @@ router.get("/usuarios", async (req, res) => {
 // Obtener usuario por ID
 router.get("/usuarios/:id", async (req, res) => {
     try {
+        if (req.user.rol !== "admin" && req.user.id !== req.params.id) {
+            return res.status(403).json({ error: "No autorizado" });
+        }
         const data = await Usuario.findById(req.params.id);
         res.json(data);
     } catch (error) {
