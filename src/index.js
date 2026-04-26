@@ -1,23 +1,29 @@
-/*'use strict';
+const express = require("express");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
-const http = require('http');
+const app = express();
+const port = 3000;
 
-const server = http.createServer(function (req, res) {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Hello World\n');
-});
+// Importar rutas correctas
+const recipeRoutes = require("./routes/recipeRoutes");
+const userRoutes = require("./routes/userRoutes");
 
-server.listen(5000);
-*/
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-const express = require('express')
-const app = express()
-const port = 3000
+// Rutas
+app.use("/api", recipeRoutes);
+app.use("/api", userRoutes);
 
-app.get('/', (req, res) => {
-  res.send('¡Hola Mundo!')
-})
+// Conexión a MongoDB
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("Conexión exitosa"))
+  .catch((error) => console.log(error));
 
+// Puerto
 app.listen(port, () => {
-  console.log(`La aplicación se está ejecutando en http://localhost:${port}`)
-})
+  console.log(`Servidor corriendo en puerto ${port}`);
+});
