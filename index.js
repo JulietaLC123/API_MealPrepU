@@ -14,10 +14,10 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-app.get('/prueba', (req, res) => {
-  res.send('Hello World!')
+app.get('/', (req, res) => {
+  res.send('¡Hola Mundo!')
 })
 
 app.listen(port, () => {
-  console.log(`La app se está ejecutando por el puerto`)
+  console.log(`La aplicación se está ejecutando en http://localhost:${port}`)
 })
