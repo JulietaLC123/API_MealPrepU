@@ -5,7 +5,7 @@ const verifyToken = require("./validate_token");
 const isAdmin = require("./isAdmin");
 
 // Crear receta
-router.post("/recetas", verifyToken, async (req, res) => {
+router.post("/recetas", verifyToken, isAdmin, async (req, res) => {
     try {
         const receta = new Receta(req.body);
         const data = await receta.save();
