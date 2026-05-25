@@ -16,7 +16,7 @@ router.post("/recetas", verifyToken, async (req, res) => {
 });
 
 // Obtener todas las recetas
-router.get("/recetas", verifyToken, async (req, res) => {
+router.get("/recetas", async (req, res) => {
     try {
         const data = await Receta.find().populate("autorId");
         res.json(data);
@@ -26,7 +26,7 @@ router.get("/recetas", verifyToken, async (req, res) => {
 });
 
 // Obtener una receta por ID
-router.get("/recetas/:id", verifyToken, async (req, res) => {
+router.get("/recetas/:id", async (req, res) => {
     try {
         const data = await Receta.findById(req.params.id).populate("autorId");
         res.json(data);
