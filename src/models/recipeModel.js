@@ -17,13 +17,22 @@ const recetaSchema = new mongoose.Schema({
     type: [String],
     required: true
   },
+  categoria: {
+    type: String,
+    enum: ["Desayuno", "Almuerzo", "Cena", "Snack", "Postre"],
+    required: true
+  },
+  tiempoPreparacion: {
+    type: Number,  // en minutos
+    required: true
+  },
   fechaCreacion: {
     type: Date,
     default: Date.now
   },
   autorId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Usuario", 
+    ref: "Usuario",
     required: true
   },
   estado: {
